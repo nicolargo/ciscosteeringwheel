@@ -1,0 +1,56 @@
+===================
+Configuration IPSec
+===================
+
+	LAN_A - RTR_A - WAN - RTR_B - LAN_B
+
+RTR_A: 	Adresse IP 192.168.1.254/24 coté LAN A
+	Adresse IP 10.10.10.1/24 coté WAN
+RTR_B: 	Adresse IP 192.168.2.254/24 coté LAN B
+	Adresse IP 10.10.10.2/24 coté WAN
+
+Configuration RTR_A:
+--------------------
+
+crypto isakmp policy 1
+	authnetification pre-share
+	lifetime 86400
+
+crypto isakmp key 1029384756APZOEIRUTYQMSLDKFJGHWNXBCV address 10.10.10.2
+
+crypto ipsec transform-set TAMCTS esp-aes 256 esp-sha-hmac
+
+crypto map TAMCMAP 10 ipsec-isakmp
+	set peer 10.10.10.2
+	set transform-set  TAMCTS
+	match address IPSEC-TUN
+
+ip access-list extended IPSEC-TUN
+	permit ip 192.168.2.0/24
+
+interface WAN
+	crypto map TAMCMAP
+
+
+Configuration RTR_B:
+--------------------
+
+crypto isakmp policy 1
+	authnetification pre-share
+	lifetime 86400
+
+crypto isakmp key 1029384756APZOEIRUTYQMSLDKFJGHWNXBCV address 10.10.10.1
+
+crypto ipsec transform-set TAMCTS esp-aes 256 esp-sha-hmac
+
+crypto map TAMCMAP 10 ipsec-isakmp
+	set peer 10.10.10.1
+	set transform-set  TAMCTS
+	match address IPSEC-TUN
+
+ip access-list extended IPSEC-TUN
+	permit ip 192.168.1.0/24
+
+interface WAN
+	crypto map TAMCMAP
+
