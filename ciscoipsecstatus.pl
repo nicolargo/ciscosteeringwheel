@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 #
 # Cisco Steering Wheel
-# > show running
+# > show crypto ipsec sa
 #
-# Syntaxe: ./ciscoshowrunning.pl -a <Cisco IP address/name> -u <login> -p <password> -P <enablepassword>
+# Syntaxe: ./ciscoipsecstatus.pl -a <Cisco IP address/name> -u <login> -p <password> -P <enablepassword>
 #
 # Need the Net::Telnet::Cisco library
 # Installation on Ubuntu: sudo aptitude install libnet-telnet-cisco-perl
@@ -28,9 +28,9 @@
 #
 #==================================================
 
-my $program_name = "ciscoshowrunning.pl";
+my $program_name = "ciscoipsecstatus.pl";
 my $program_version = "0.1a";
-my $program_date = "06/2010";
+my $program_date = "12/2010";
 
 # Libraries
 use strict;
@@ -86,7 +86,7 @@ $session->login($login, $password);
 
 # Enable mode
 if ($session->enable($enablepassword) ) {
-    @output = $session->cmd('show running');
+    @output = $session->cmd('show crypto ipsec sa');
     print "@output\n";
 } else {
     warn "Can't enable: " . $session->errmsg;

@@ -54,7 +54,7 @@ if ($opts{v}) {
 if ($opts{h} || (!$opts{a} || !$opts{u} || !$opts{p})) {
     # Help
     print "$program_name $program_version\n";
-    print "usage (as super user): ", $program_name," [options]\n";
+    print "usage: ", $program_name," [options]\n";
     print " -h: Print the command line help\n";
     print " -v: Print the program version\n";
     print " -a address: IP address (or host name) of the Cisco router\n";
